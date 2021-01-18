@@ -1,0 +1,60 @@
+import deps.Libs
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
+}
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
+    defaultConfig {
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+    }
+
+//    buildTypes {
+//        release {
+//            minifyEnabled true
+//        }
+//    }
+
+    // https://developer.android.com/studio/build/gradle-tips#configure-gradle-test-options
+    testOptions {
+        unitTests.all {
+            // listen to events in the test execution lifecycle
+            beforeTest { descriptor ->
+                logger.lifecycle("Running test: " + descriptor)
+            }
+            test {
+                // Change directories where Gradle saves test results/reports
+                // Google docs "Configure Gradle test options" is incorrect in terms of redirecting
+                // reports and test-results. More:
+                // - https://www.reddit.com/r/androiddev/comments/8hwe7s/specifying_custom_test_result_or_report_folders/
+                // - https://issuetracker.google.com/issues/37132023
+                // - https://issuetracker.google.com/issues/37132023#comment6
+                def junitXmlTestTaskName = file("$reports.junitXml.destination").name
+                def htmlTestTaskName = file("$reports.html.destination").name
+                println("- processing testOptions for ${this.name}-${htmlTestTaskName}")
+                // Changes the directory where Gradle saves test reports. By default, Gradle saves test reports
+                // in the path_to_your_project/module_name/build/reports/ directory.
+                // '$rootDir' sets the path relative to the root directory of the current project.
+                reports.html.destination = file("$rootDir/build/output/${this.name}/reports/$htmlTestTaskName")
+                // Changes the directory where Gradle saves test results. By default, Gradle saves test results
+                // in the path_to_your_project/module_name/build/outputs/test-results/ directory.
+                // '$rootDir' sets the path relative to the root directory of the current project.
+                reports.junitXml.destination = file("$rootDir/build/output/${this.name}/test-results/$junitXmlTestTaskName")
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.Coroutines.core
+}

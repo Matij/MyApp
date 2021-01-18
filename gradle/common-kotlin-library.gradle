@@ -1,0 +1,34 @@
+import deps.Libs
+
+apply plugin: 'kotlin'
+
+apply plugin: 'kotlin-kapt'
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
+}
+
+test {
+    // listen to events in the test execution lifecycle
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+
+    // Change directories where Gradle saves test results/reports
+    def junitXmlTestTaskName = file("$reports.junitXml.destination").name
+    def htmlTestTaskName = file("$reports.html.destination").name
+    println("- processing testOptions for ${this.name}-${htmlTestTaskName}")
+    // Changes the directory where Gradle saves test reports. By default, Gradle saves test reports
+    // in the path_to_your_project/module_name/build/reports/ directory.
+    // '$rootDir' sets the path relative to the root directory of the current project.
+    reports.html.destination = file("$rootDir/build/output/${this.name}/reports/$htmlTestTaskName")
+    // Changes the directory where Gradle saves test results. By default, Gradle saves test results
+    // in the path_to_your_project/module_name/build/outputs/test-results/ directory.
+    // '$rootDir' sets the path relative to the root directory of the current project.
+    reports.junitXml.destination = file("$rootDir/build/output/${this.name}/test-results/$junitXmlTestTaskName")
+}
+
+dependencies {
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.Coroutines.core
+}
