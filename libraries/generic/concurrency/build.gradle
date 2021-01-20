@@ -1,0 +1,23 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-android-library.gradle"
+
+dependencies {
+    compileOnly project(':libraries:generic:di')
+    api project(':libraries:generic:concurrency-api')
+
+    api Libs.Coroutines.core
+    api Libs.Coroutines.rx2
+    implementation Libs.Coroutines.android
+
+    api Libs.RxJava.rxJava
+    api Libs.RxJava.rxKotlin
+    implementation Libs.RxJava.rxAndroid
+
+    implementation Libs.Apache.commonsLang3
+
+    implementation Libs.Dagger.dagger
+    kapt Libs.Dagger.compiler
+
+    implementation Libs.AndroidX.Lifecycle.runtimeKtx
+}
