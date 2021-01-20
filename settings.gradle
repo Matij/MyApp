@@ -9,4 +9,6 @@ include ':libraries:generic:ui'
 include ':libraries:generic:di'
 include ':libraries:generic:di-android'
 
+include ':features:main'
+
 include ':app'
