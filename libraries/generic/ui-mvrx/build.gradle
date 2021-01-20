@@ -1,0 +1,19 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-android-library.gradle"
+
+dependencies {
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.Coroutines.core
+
+    implementation Libs.AndroidX.appcompat
+    implementation Libs.AndroidX.Lifecycle.runtimeKtx
+
+    implementation Libs.Dagger.dagger
+    implementation Libs.Dagger.android
+    implementation Libs.Dagger.androidSupport
+    kapt Libs.Dagger.compiler
+    kapt Libs.Dagger.androidProcessor
+
+    api(Libs.mvrx) { exclude group: 'org.jetbrains.kotlin' }
+}

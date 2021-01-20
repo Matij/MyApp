@@ -1,3 +1,4 @@
-include ':ui-mvrx'
-include ':app'
 rootProject.name = "ShopApp"
+
+include ':libraries:generic:ui-mvrx'
+include ':app'
