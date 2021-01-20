@@ -1,0 +1,35 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-android-library.gradle"
+
+android {
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+    api project(':libraries:generic:kotlin') // Tuple2
+    implementation project(':libraries:generic:logger-api')
+
+    implementation Libs.Kotlin.stdlib
+
+    implementation Libs.Dagger.dagger
+
+    // DataBindingAdapter
+    implementation Libs.Google.material
+    implementation Libs.AndroidX.appcompat
+    implementation Libs.AndroidX.recyclerview
+    implementation Libs.AndroidX.Navigation.fragmentKtx
+
+    // CoroutineExt
+    implementation Libs.Coroutines.core
+    implementation Libs.AndroidX.Lifecycle.common
+    implementation Libs.AndroidX.Lifecycle.viewmodelKtx
+    implementation Libs.AndroidX.Lifecycle.runtimeKtx
+    implementation Libs.AndroidX.Lifecycle.service
+
+    api Libs.Eazypermissions.coroutines
+
+    implementation Libs.timber
+}

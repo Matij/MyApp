@@ -1,0 +1,10 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-kotlin-library.gradle"
+
+dependencies {
+    implementation Libs.Kotlin.stdlib
+
+    testImplementation Libs.junit
+    testImplementation Libs.assertJ
+}

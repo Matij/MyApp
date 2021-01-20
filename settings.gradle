@@ -1,4 +1,8 @@
 rootProject.name = "ShopApp"
 
+include ':libraries:generic:logger-api'
 include ':libraries:generic:ui-mvrx'
+include ':libraries:generic:kotlin'
+include ':libraries:generic:ui'
+
 include ':app'
