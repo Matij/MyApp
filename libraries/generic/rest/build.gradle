@@ -1,0 +1,25 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-kotlin-library.gradle"
+
+dependencies {
+    compileOnly project(':libraries:generic:di')
+    api project(':libraries:generic:concurrency-api')
+
+    api Libs.Kotlin.stdlib
+    api Libs.Coroutines.core
+
+    api Libs.Dagger.dagger
+    kapt Libs.Dagger.compiler
+
+    api(Libs.Retrofit.retrofit) { exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7' }
+    api Libs.Retrofit.converterMoshi
+
+    api Libs.Moshi.moshi
+    // for @JsonClass(generateAdapter = true)
+    api Libs.Moshi.moshiAdapters
+    kapt Libs.Moshi.moshiKotlinCodegen
+
+    api Libs.OkHttp.okhttp
+    api Libs.OkHttp.loggingInterceptor
+}

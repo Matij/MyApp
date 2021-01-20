@@ -4,6 +4,7 @@ include ':libraries:generic:concurrency-api'
 include ':libraries:generic:logger-api'
 include ':libraries:generic:ui-mvrx'
 include ':libraries:generic:kotlin'
+include ':libraries:generic:rest'
 include ':libraries:generic:ui'
 include ':libraries:generic:di'
 
