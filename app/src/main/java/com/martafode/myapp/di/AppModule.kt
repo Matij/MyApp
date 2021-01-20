@@ -2,6 +2,7 @@ package com.martafode.myapp.di
 
 import android.app.Application
 import android.content.Context
+import com.martafode.feature.main.di.MAIN_ACCESS_KEY
 import com.martafode.feature.main.di.MAIN_IS_DEBUG_BUILD
 import com.martafode.lib.rest.RestApiBaseUrl
 import com.martafode.lib.rest.RestApiKey
@@ -37,7 +38,7 @@ object AppModule {
 
         @Binds
         @RestApiKey
-        abstract fun bindRestApiKey(@Named(BUILD_CONFIG_REST_API_KEY) b: String): String
+        abstract fun bindRestApiKey(@Named(BUILD_CONFIG_REST_ACCESS_KEY) b: String): String
 
         @Binds
         @RestDebug
@@ -47,6 +48,10 @@ object AppModule {
 
         @Binds
         @Named(MAIN_IS_DEBUG_BUILD)
-        abstract fun bindConsumerIsDebugBuild(@Named(BUILD_CONFIG_DEBUG) b: Boolean): Boolean
+        abstract fun bindMainIsDebugBuild(@Named(BUILD_CONFIG_DEBUG) b: Boolean): Boolean
+
+        @Binds
+        @Named(MAIN_ACCESS_KEY)
+        abstract fun bindMainAccessKey(@Named(BUILD_CONFIG_REST_ACCESS_KEY) b: String): String
     }
 }
