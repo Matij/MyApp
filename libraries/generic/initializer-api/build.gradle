@@ -1,0 +1,7 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-kotlin-library.gradle"
+
+dependencies {
+    api Libs.AndroidX.annotation
+}

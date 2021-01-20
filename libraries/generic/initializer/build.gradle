@@ -1,0 +1,11 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-android-library.gradle"
+
+dependencies {
+    api project(':libraries:generic:di-android')
+    api project(':libraries:generic:initializer-api')
+    api project(':libraries:generic:initializer-android-api')
+
+    implementation Libs.Dagger.dagger
+}
