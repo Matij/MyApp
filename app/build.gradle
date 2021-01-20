@@ -1,10 +1,17 @@
 import deps.Libs
 import deps.Versions
 
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
 }
+
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion buildConfig.compileSdk
@@ -37,6 +44,9 @@ android {
 }
 
 dependencies {
+    implementation project(':libraries:generic:rest')
+
+    implementation project(':features:main')
 
     implementation Libs.Kotlin.stdlib
     implementation Libs.Coroutines.core
@@ -45,6 +55,14 @@ dependencies {
     implementation Libs.AndroidX.constraintlayout
     implementation Libs.AndroidX.Lifecycle.process
     implementation Libs.Google.material
+
+    implementation Libs.Dagger.dagger
+    implementation Libs.Dagger.android
+    implementation Libs.Dagger.androidSupport
+    kapt Libs.Dagger.compiler
+    kapt Libs.Dagger.androidProcessor
+    compileOnly Libs.AssistedInject.annotationDagger2
+    kapt Libs.AssistedInject.processorDagger2
 
     testImplementation Libs.junit
     androidTestImplementation Libs.AndroidX.Test.Ext.junit
