@@ -11,7 +11,7 @@ android {
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
-        applicationId "com.martafode.shopapp"
+        applicationId "com.martafode.myapp"
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
         versionCode 1

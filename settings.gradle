@@ -1,4 +1,4 @@
-rootProject.name = "ShopApp"
+rootProject.name = "MyApp"
 
 include ':libraries:generic:concurrency-api'
 include ':libraries:generic:logger-api'
