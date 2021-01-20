@@ -47,7 +47,9 @@ android {
 }
 
 dependencies {
+    implementation project(':libraries:generic:concurrency')
     implementation project(':libraries:generic:rest')
+    implementation project(':libraries:generic:json')
     implementation project(':libraries:generic:logger-core')
     implementation project(':features:main')
 

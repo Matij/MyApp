@@ -1,7 +1,9 @@
 package com.martafode.myapp.di
 
 import com.martafode.feature.main.MainModule
+import com.martafode.lib.concurrency.ConcurrencyModule
 import com.martafode.lib.di.ApplicationScoped
+import com.martafode.lib.json.JsonModule
 import com.martafode.lib.logger.LoggerModule
 import com.martafode.lib.rest.RestModule
 import com.martafode.myapp.MyApp
@@ -14,6 +16,8 @@ import dagger.android.AndroidInjector
 @Component(
     modules = [
         // libraries - generic
+        ConcurrencyModule::class,
+        JsonModule::class,
         LoggerModule::class,
         RestModule::class,
         // libraries - specific
