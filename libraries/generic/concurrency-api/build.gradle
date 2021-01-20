@@ -1,0 +1,18 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-kotlin-library.gradle"
+
+dependencies {
+    api Libs.Coroutines.core
+    api Libs.Coroutines.rx2
+    api Libs.RxJava.rxJava
+
+    implementation Libs.Dagger.dagger
+
+    testImplementation Libs.junit
+    testImplementation Libs.Coroutines.test
+    testImplementation Libs.Dagger.dagger
+    kaptTest Libs.Dagger.compiler
+    testImplementation Libs.mockk
+    testImplementation Libs.assertJ
+}
