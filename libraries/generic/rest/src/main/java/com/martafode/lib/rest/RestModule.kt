@@ -60,7 +60,6 @@ object RestModule {
     @Provides
     @ApplicationScoped
     fun provideOkHttpClient(
-        @OkHttpInterceptor interceptors: Set<@JvmSuppressWildcards Interceptor>,
         @OkHttpNetworkInterceptor networkInterceptors: Set<@JvmSuppressWildcards Interceptor>,
         @RestDebug isDebug: Boolean,
     ): OkHttpClient = OkHttpClient.Builder()
@@ -71,10 +70,6 @@ object RestModule {
             connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
         }
         .apply {
-            interceptors
-                .forEach {
-                    addInterceptor(it)
-                }
             networkInterceptors
                 .forEach {
                     addNetworkInterceptor(it)
