@@ -1,0 +1,11 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-android-library.gradle"
+
+dependencies {
+    api project(':libraries:generic:di')
+
+    api Libs.Dagger.dagger
+
+    api Libs.AndroidX.Lifecycle.viewmodelKtx
+}

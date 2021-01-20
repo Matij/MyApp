@@ -7,5 +7,6 @@ include ':libraries:generic:kotlin'
 include ':libraries:generic:rest'
 include ':libraries:generic:ui'
 include ':libraries:generic:di'
+include ':libraries:generic:di-android'
 
 include ':app'
