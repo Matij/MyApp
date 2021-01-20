@@ -25,6 +25,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "REST_API_BASE_URL", "\"http://api.currencylayer.com\""
+        buildConfigField "String", "REST_API_KEY", "\"132210d04542be4af0f448a44220a212\""
     }
 
     buildTypes {
