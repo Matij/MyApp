@@ -1,0 +1,15 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-kotlin-library.gradle"
+
+dependencies {
+    compileOnly project(':libraries:generic:di')
+
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.Coroutines.core
+
+    implementation Libs.Dagger.dagger
+    kapt Libs.Dagger.compiler
+
+    api Libs.Moshi.moshi
+}
