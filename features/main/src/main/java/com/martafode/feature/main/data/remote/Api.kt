@@ -11,12 +11,12 @@ interface Api {
     data class ApiExchangeRateData(
         @Json(name = "source") val source: String,
         @Json(name = "timestamp") val timestamp: String,
-        @Json(name = "quotes") val quotes: Map<String, String>,
+        @Json(name = "quotes") val quotes: Map<String, Double>,
         @Json(name = "terms") val terms: String,
         @Json(name = "privacy") val privacy: String,
         @Json(name = "success") val success: Boolean,
     )
 
     @GET("live")
-    suspend fun fetchLiveExchangeRates(@Query("apiKey") apiKey: String): ApiExchangeRateData
+    suspend fun fetchLiveExchangeRates(@Query("access_key") accessKey: String): ApiExchangeRateData
 }
