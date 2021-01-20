@@ -45,7 +45,7 @@ android {
 
 dependencies {
     implementation project(':libraries:generic:rest')
-
+    implementation project(':libraries:generic:logger-core')
     implementation project(':features:main')
 
     implementation Libs.Kotlin.stdlib

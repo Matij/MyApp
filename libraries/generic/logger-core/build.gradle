@@ -1,0 +1,13 @@
+import deps.Libs
+
+apply from: "$rootDir/gradle/common-android-library.gradle"
+
+dependencies {
+    api project(':libraries:generic:di-android')
+    api project(':libraries:generic:logger-api')
+
+    implementation Libs.Dagger.dagger
+    kapt Libs.Dagger.compiler
+
+    api Libs.timber
+}
