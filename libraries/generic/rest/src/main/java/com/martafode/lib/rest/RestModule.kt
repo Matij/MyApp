@@ -2,13 +2,16 @@
 
 package com.martafode.lib.rest
 
+import android.content.Context
 import com.martafode.lib.di.ApplicationScoped
+import com.martafode.lib.rest.helper.NetworkConnectivity
 import com.squareup.moshi.Moshi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
 import dagger.multibindings.Multibinds
+import okhttp3.Cache
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import okhttp3.Interceptor
@@ -60,6 +63,8 @@ object RestModule {
     @Provides
     @ApplicationScoped
     fun provideOkHttpClient(
+        networkConnectivity: NetworkConnectivity,
+        applicationRestCache: Cache,
         @OkHttpNetworkInterceptor networkInterceptors: Set<@JvmSuppressWildcards Interceptor>,
         @RestDebug isDebug: Boolean,
     ): OkHttpClient = OkHttpClient.Builder()
@@ -75,6 +80,38 @@ object RestModule {
                     addNetworkInterceptor(it)
                 }
         }
+        .cache(applicationRestCache)
+        .addInterceptor { chain ->
+            // Get the request from the chain.
+            var request = chain.request()
+
+            /*
+            *  Leveraging the advantage of using Kotlin,
+            *  we initialize the request and change its header depending on whether
+            *  the device is connected to Internet or not.
+            */
+            request = if (networkConnectivity.hasNetwork()!!)
+            /*
+            *  If there is Internet, get the cache that was stored 30 minutes ago.
+            *  If the cache is older than 5 seconds, then discard it,
+            *  and indicate an error in fetching the response.
+            *  The 'max-age' attribute is responsible for this behavior.
+            */
+                request.newBuilder().header("Cache-Control", "public, max-age=" + 30 * 60).build()
+            else
+            /*
+            *  If there is no Internet, get the cache that was stored 7 days ago.
+            *  If the cache is older than 7 days, then discard it,
+            *  and indicate an error in fetching the response.
+            *  The 'max-stale' attribute is responsible for this behavior.
+            *  The 'only-if-cached' attribute indicates to not retrieve new data; fetch the cache only instead.
+            */
+                request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
+            // End of if-else statement
+
+            // Add the modified request to the chain.
+            chain.proceed(request)
+        }
         .build()
 
     @Provides
@@ -86,6 +123,13 @@ object RestModule {
                 if (debug) HttpLoggingInterceptor.Level.BODY
                 else HttpLoggingInterceptor.Level.NONE
         }
+
+    @Provides
+    @ApplicationScoped
+    fun provideRestCache(context: Context): Cache {
+        val cacheSize = (5 * 1024 * 1024).toLong()
+        return Cache(context.cacheDir, cacheSize)
+    }
 
     // service related - Retrofit
 

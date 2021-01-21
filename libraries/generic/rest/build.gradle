@@ -1,6 +1,6 @@
 import deps.Libs
 
-apply from: "$rootDir/gradle/common-kotlin-library.gradle"
+apply from: "$rootDir/gradle/common-android-library.gradle"
 
 dependencies {
     compileOnly project(':libraries:generic:di')
