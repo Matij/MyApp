@@ -1,5 +1,7 @@
 package com.martafode.feature.main.data.rate
 
+import com.martafode.feature.main.data.currency.Currency
+import com.martafode.feature.main.data.currency.toDataModel
 import com.martafode.feature.main.data.remote.Api
 import com.martafode.feature.main.di.MAIN_ACCESS_KEY
 import com.martafode.lib.rest.helper.NetworkHelper
@@ -12,8 +14,18 @@ class ExchangeRatesRepository @Inject constructor(
     private val api: Api,
     private val networkHelper: NetworkHelper,
 ) {
-    suspend fun fetchLiveRates(): ResultWrapper<List<ExchangeRate>> =
+    suspend fun fetchCurrencies(): ResultWrapper<List<Currency>> =
         networkHelper.safeApiCall {
-            api.fetchLiveExchangeRates(accessKey).toDataModel()
+            api.fetchCurrencies(accessKey).toDataModel()
+        }
+
+    suspend fun fetchLiveRates(currencyCode: String, currencies: String): ResultWrapper<List<ExchangeRate>> =
+        networkHelper.safeApiCall {
+            api.fetchLiveExchangeRates(accessKey, currencyCode, currencies).toDataModel()
+        }
+
+    suspend fun fetchAmountConversion(from: String, to: String, amount: String): ResultWrapper<String> =
+        networkHelper.safeApiCall {
+            api.fetchAmountConversion(accessKey, from, to, amount).result ?: "0"
         }
 }
