@@ -31,18 +31,35 @@ class ExchangeRatesViewModel @AssistedInject constructor(
         logger.d("received: $intent")
         when (intent) {
             is ExchangeRatesIntent.Opened -> init()
+            is ExchangeRatesIntent.CurrencySelected -> {
+                val currencyCode = getState().currencies[intent.position]
+                setState { copy(currentCurrencyCode = currencyCode) }
+            }
+            is ExchangeRatesIntent.AmountSelected -> {
+                setState { copy(currentAmount = intent.amount) }
+            }
         }
     }
 
     private fun init() {
+        fetchCurrencies()
         fetchLiveRates()
     }
 
-    private fun fetchLiveRates() = viewModelLaunch {
+    private fun fetchCurrencies() = viewModelLaunch {
         executeRequest(
-            block = { exchangeRatesRepository.fetchLiveRates() },
+            block = { exchangeRatesRepository.fetchCurrencies() },
+            onSuccess = { currencies ->
+                setState { copy(currencies = currencies.map { it.id }) }
+            }
+        )
+    }
+
+    private fun fetchLiveRates(currencyCode: String = "", currencies: String = "") = viewModelLaunch {
+        executeRequest(
+            block = { exchangeRatesRepository.fetchLiveRates(currencyCode, currencies) },
             onSuccess = {
-                logger.i("received #${it.size} items")
+                setState { copy(quotes = it.map { "${it.id}: ${it.value}" }) }
             }
         )
     }

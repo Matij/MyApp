@@ -3,4 +3,5 @@
     <string name="app_name">MyApp</string>
     <string name="main_amount_field_hint">Input amount</string>
     <string name="main_field_currency_hint">Select a currency</string>
+    <string name="main_field_conversion_result_label">Conversion result: %s</string>
 </resources>

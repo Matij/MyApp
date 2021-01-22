@@ -23,9 +23,4 @@ class ExchangeRatesRepository @Inject constructor(
         networkHelper.safeApiCall {
             api.fetchLiveExchangeRates(accessKey, currencyCode, currencies).toDataModel()
         }
-
-    suspend fun fetchAmountConversion(from: String, to: String, amount: String): ResultWrapper<String> =
-        networkHelper.safeApiCall {
-            api.fetchAmountConversion(accessKey, from, to, amount).result ?: "0"
-        }
 }
