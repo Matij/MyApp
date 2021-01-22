@@ -55,9 +55,9 @@ class ExchangeRatesViewModel @AssistedInject constructor(
         )
     }
 
-    private fun fetchLiveRates(currencyCode: String = "", currencies: String = "") = viewModelLaunch {
+    private fun fetchLiveRates() = viewModelLaunch {
         executeRequest(
-            block = { exchangeRatesRepository.fetchLiveRates(currencyCode, currencies) },
+            block = { exchangeRatesRepository.retrieveLiveRates() },
             onSuccess = {
                 setState { copy(quotes = it.map { "${it.id}: ${it.value}" }) }
             }
