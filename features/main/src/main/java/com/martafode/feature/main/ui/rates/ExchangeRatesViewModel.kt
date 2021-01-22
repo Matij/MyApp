@@ -34,9 +34,11 @@ class ExchangeRatesViewModel @AssistedInject constructor(
             is ExchangeRatesIntent.CurrencySelected -> {
                 val currencyCode = getState().currencies[intent.position]
                 setState { copy(currentCurrencyCode = currencyCode) }
+                computeConversion()
             }
             is ExchangeRatesIntent.AmountSelected -> {
                 setState { copy(currentAmount = intent.amount) }
+                computeConversion()
             }
         }
     }
@@ -62,6 +64,22 @@ class ExchangeRatesViewModel @AssistedInject constructor(
                 setState { copy(quotes = it.map { "${it.id}: ${it.value}" }) }
             }
         )
+    }
+
+    private fun computeConversion() = withState { state ->
+        if (state.currentAmount.isEmpty() || state.quotes.isNullOrEmpty()) {
+            setState { copy(conversionResult = "") }
+            return@withState
+        }
+
+        val quote = state.quotes.firstOrNull {
+            it.substringBefore(":") == "USD${state.currentCurrencyCode}"
+        } ?: return@withState
+
+        quote.substringAfter(":").trim().toDoubleOrNull()?.let { currencyRate ->
+            val result = state.currentAmount.toDouble().times(currencyRate)
+            setState { copy(conversionResult = result.toString()) }
+        }
     }
 
     private suspend fun <T> executeRequest(
