@@ -3,6 +3,7 @@
 
 package com.martafode.lib.di
 
+import javax.inject.Qualifier
 import javax.inject.Scope
 
 /**
@@ -17,3 +18,11 @@ import javax.inject.Scope
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ApplicationScoped
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AppPreferenceInfo
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class DataPreferenceInfo
