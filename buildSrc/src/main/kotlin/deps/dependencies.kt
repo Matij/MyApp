@@ -62,6 +62,8 @@ object Libs {
         const val reflect = "org.jetbrains.kotlin:kotlin-reflect:$version"
         const val testJunit = "org.jetbrains.kotlin:kotlin-test-junit:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
+        const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:$version"
+
     }
 
     object Arrow {
@@ -453,6 +455,12 @@ object Libs {
 
     object Intercom {
         const val intercom = "io.intercom.android:intercom-sdk:8.3.0"
+    }
+
+    object Mockk {
+        private const val mockkVersion = "1.9.3"
+        const val mockk = "io.mockk:mockk:${mockkVersion}"
+        const val mockkAndroid = "io.mockk:mockk-android:${mockkVersion}"
     }
 
     // To review:

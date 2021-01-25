@@ -50,6 +50,12 @@ dependencies {
     api(Libs.Retrofit.retrofit) { exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7' }
 
     testImplementation Libs.junit
+    testImplementation Libs.Mockk.mockk
+    testImplementation Libs.Mockk.mockkAndroid
+    testImplementation Libs.Kotlin.kotlinTest
+    testImplementation Libs.Coroutines.core
+    testImplementation Libs.Coroutines.test
+
     androidTestImplementation Libs.AndroidX.Test.Ext.junit
     androidTestImplementation Libs.AndroidX.Test.Espresso.espressoCore
 }

@@ -16,6 +16,7 @@ import com.martafode.lib.ui.mvrx.BaseMviFragment
 import com.martafode.lib.ui.utils.addOnTextChangedListener
 import com.martafode.lib.ui.utils.fragmentLaunch
 import com.martafode.lib.ui.utils.logFragmentLifecycleEvents
+import com.martafode.lib.ui.utils.showSnackbar
 import kotlinx.android.synthetic.main.fragment_exchange_rates.amountField
 import kotlinx.android.synthetic.main.fragment_exchange_rates.conversionResult
 import kotlinx.android.synthetic.main.fragment_exchange_rates.currencyFieldLayout
@@ -41,6 +42,7 @@ class ExchangeRatesFragment: BaseMviFragment<ExchangeRatesIntent>(R.layout.fragm
         // OUTPUTS - to the system
         // OUTPUTS - to the user (like visual effects)
         setupContent()
+        setupErrorSnackbar()
         // INPUTS - from the system
         notifyTableSelectionStartup()
         // INPUTS - from the user (like touches)
@@ -68,6 +70,9 @@ class ExchangeRatesFragment: BaseMviFragment<ExchangeRatesIntent>(R.layout.fragm
         }
     }
 
+    private fun setupErrorSnackbar() = viewModel.selectSubscribe(ExchangeRatesState::errorMessage) {
+        showSnackbar(it)
+    }
 
     // INPUTS - from the system
 

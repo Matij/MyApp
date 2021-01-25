@@ -14,6 +14,7 @@ import com.martafode.lib.ui.mvrx.BaseViewModel
 import com.martafode.lib.ui.utils.viewModelLaunch
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import javax.inject.Named
@@ -23,6 +24,7 @@ typealias ViewModel = ExchangeRatesViewModel
 class ExchangeRatesViewModel @AssistedInject constructor(
     private val exchangeRatesRepository: ExchangeRatesRepository,
     private val logger: Logger,
+    private val defaultDispatcher: CoroutineDispatcher,
     @Assisted initialState: State,
     @Named(MAIN_IS_DEBUG_BUILD) isDebug: Boolean
 ) : BaseViewModel<State, Intent>(initialState, isDebug) {
@@ -32,8 +34,7 @@ class ExchangeRatesViewModel @AssistedInject constructor(
         when (intent) {
             is ExchangeRatesIntent.Opened -> init()
             is ExchangeRatesIntent.CurrencySelected -> {
-                val currencyCode = getState().currencies[intent.position]
-                setState { copy(currentCurrencyCode = currencyCode) }
+                setState { copy(currentCurrencyCode = currencies[intent.position]) }
                 computeConversion()
             }
             is ExchangeRatesIntent.AmountSelected -> {
@@ -48,7 +49,7 @@ class ExchangeRatesViewModel @AssistedInject constructor(
         fetchLiveRates()
     }
 
-    private fun fetchCurrencies() = viewModelLaunch {
+    private fun fetchCurrencies() = viewModelLaunch(defaultDispatcher) {
         executeRequest(
             block = { exchangeRatesRepository.fetchCurrencies() },
             onSuccess = { currencies ->
@@ -57,7 +58,7 @@ class ExchangeRatesViewModel @AssistedInject constructor(
         )
     }
 
-    private fun fetchLiveRates() = viewModelLaunch {
+    private fun fetchLiveRates() = viewModelLaunch(defaultDispatcher) {
         executeRequest(
             block = { exchangeRatesRepository.retrieveLiveRates() },
             onSuccess = {
